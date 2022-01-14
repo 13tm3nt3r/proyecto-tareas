@@ -1,0 +1,76 @@
+<html>
+
+<head>
+    <title>Express</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="./stylesheets/style.css">
+
+    <script src="https://kit.fontawesome.com/2c36e9b7b1.js"></script>
+
+    <script src="javascripts/model-proxy.js"></script>
+    <script src="javascripts/presenter.js"></script>
+
+    <script>
+        let presenter;
+
+        async function inicio() {
+
+            //esta ruta está protegida
+            let resultado = await fetch('http://localhost:3000/api/user');
+
+            // si puede acceder
+            if (resultado.ok) {
+                console.log('puede acceder');
+                presenter = new TareasAppPresenter(new TareasAppProxy(), document);
+                presenter.refresh();
+            } else {
+                //Mensaje de error al autenticarse
+                alert(`Error: ${resultado.status} <br> ${resultado.statusText}`);
+
+                //Redirigimos a Login para que se vuelva autenticar
+                window.location.href = 'http://localhost:3000';
+            }
+        }
+    </script>
+
+</head>
+
+<body onload="inicio()">
+    <main>
+        <header>
+            <a href="tareas.html"><img src="./images/logo.png" /></a>
+
+            <h1 id="header__web">Sitio Web de Tareas</h1>
+        </header>
+
+        <div class="div__tareas">
+            <header id="header__tareas">
+                <h2>Listado de tareas</h2>
+            </header>
+
+            <table id="table__tareas">
+
+                <thead>
+                    <tr>
+                        <th>Tarea</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody id="tareas"></tbody>
+
+            </table>
+
+            <button id="button__agregar"> <a href="agregar-tarea.html">Agregar</a> </button>
+
+
+        </div>
+
+        <footer>
+            <br> © 2021 Tareas WebApp - Laura Estop, Yasín Muñoz, Laura Rojas
+        </footer>
+
+    </main>
+</body>
+
+</html>
